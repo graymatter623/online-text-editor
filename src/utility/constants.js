@@ -1,0 +1,1 @@
+export const editorApiBaseUrl = 'http://localhost:5000';
