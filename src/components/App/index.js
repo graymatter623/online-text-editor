@@ -1,8 +1,10 @@
 import React from 'react';
 import { editorApiBaseUrl } from '../../utility/constants';
 import fetch from 'isomorphic-fetch';
-import './styles.css';
+import './styles.scss';
 import cx from 'classnames';
+import Button from '../Shared-Components/Button';
+import LineNumbers from '../LineNumbers';
 
 export default class App extends React.PureComponent {
   constructor () {
@@ -65,30 +67,22 @@ export default class App extends React.PureComponent {
   }
   render () {
     return (
-      <div >
-        <div className='row ml-1 mt-5'>
-          <div className='col-1'>
-            <button className='shadow rounded-0 btn btn-success mr-3' onClick={this.handleRunClick} >RUN</button>
-          </div>
-          <div className='col-11'/>
+      <div className='bg-whitesmoke'>
+        <div className='d-flex ml-3 mt-1'>
+          <Button id='run-button-id-0' classes='shadow rounded-0 btn btn-outline-success' onClick={this.handleRunClick} label='RUN' />
+          <Button classes='shadow rounded-0 btn btn-outline-primary' onClick={this.handleSubmitClick} label='SUBMIT'/>  
         </div>
         <div className='row'>
           <div className='ml-2 col-6'>
             <div className='row ml-2 shadow'>
-              <textarea onChange={this.handleTextAreaOnChange} className={cx('form-control col-11 border-top-0 border-left-0 h-75 overflow fs2')} rows={20} id='code-editor-input'/>
-              <div className={cx('col-1 divider')}/>
+              <LineNumbers totalLines={20} />
+              <textarea onChange={this.handleTextAreaOnChange} className={cx('col border-0 form-control h-75 overflow fs-2 no-resize')} rows={20} id='code-editor-input'/>
             </div>
           </div>
-          <div className='col-5 divider shadow'>
+          <div className='col-5 shadow ml-5 bg-white'>
             <div className={cx(this.state.errorOccured ? 'text-danger' : 'text-success')}>{ this.state.shouldOutputShow ? (this.state.textAreaOutput) : '' }</div>
             { (!this.state.shouldOutputShow && this.state.loading) && <div className='spinner-border text-success' />}
           </div>
-        </div>
-        <div className='row ml-2 mt-2'>
-          <div className='col-1'>
-            <button className='btn btn-primary' onClick={this.handleSubmitClick}>SUBMIT</button>  
-          </div>
-          <div className='col-11'/>
         </div>
       </div>
     );
