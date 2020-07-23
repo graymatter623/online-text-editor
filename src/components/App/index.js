@@ -1,8 +1,9 @@
 import React from 'react';
 import { editorApiBaseUrl } from '../../utility/constants';
 import fetch from 'isomorphic-fetch';
-import styles from './styles.scss';
+import './styles.css';
 import cx from 'classnames';
+
 export default class App extends React.PureComponent {
   constructor () {
     super();
@@ -10,6 +11,8 @@ export default class App extends React.PureComponent {
       textAreaInput: '',
       textAreaOutput: '',
       shouldOutputShow: false,
+      errorOccured: false,
+      loading: false
     };
   }
   
@@ -21,8 +24,15 @@ export default class App extends React.PureComponent {
   };
 
   handleRunClick = () => {
+    this.setState({
+      loading: true,
+    });
+
     const options = {
-      body: JSON.stringify({ code: this.state.textAreaInput }) || {},
+      body: JSON.stringify({ 
+        code: this.state.textAreaInput,
+        scriptType: 'node',
+       }) || {},
       headers: {
         'Accept': 'application/json',
         'Content-Type': 'application/json'
@@ -31,10 +41,20 @@ export default class App extends React.PureComponent {
     };
     fetch(`${editorApiBaseUrl}/api/code-compile`, options)
       .then(response => response.json()).then(data => {
+        console.log(data);
         if (data.success) {
           this.setState({
             shouldOutputShow: true,
             textAreaOutput: data.output,
+            errorOccured: false,
+            loading: false
+          });
+        } else if (!data.success) {
+          this.setState({
+            shouldOutputShow: true,
+            textAreaOutput: data.output ,
+            loading: false,
+            errorOccured: true,
           });
         }
       }).catch(err => console.log(err));
@@ -43,27 +63,30 @@ export default class App extends React.PureComponent {
   handleSubmitClick = () => {
     
   }
-
   render () {
     return (
-      <div>
-        <div className='row'>
-          <div className='col-6 mt-3 display-4 text-center'>JS CODE</div>
-          <div className='col-6 mt-3 display-4 text-center'>OUTPUT</div>
-        </div>
-        <div className='row'>
-          <div className='col-4'>
-            <textarea onChange={this.handleTextAreaOnChange} className={cx('form-control h-50', styles.overflow, styles.fs2)} rows={20} id='code-editor-input'/>
-          </div>
-          <div className={cx('col-4', styles.divider)}/>
-          <div className='col-4'>
-            { this.state.shouldOutputShow ? this.state.textAreaOutput : ''}
-          </div>
-        </div>
-        <div className='row ml-2 mt-3'>
+      <div >
+        <div className='row ml-1 mt-5'>
           <div className='col-1'>
-            <button className='btn btn-primary mr-3' onClick={this.handleRunClick} >RUN</button>
-            <button className='btn btn-success' onClick={this.handleSubmitClick}>SUBMIT</button>  
+            <button className='shadow rounded-0 btn btn-success mr-3' onClick={this.handleRunClick} >RUN</button>
+          </div>
+          <div className='col-11'/>
+        </div>
+        <div className='row'>
+          <div className='ml-2 col-6'>
+            <div className='row ml-2 shadow'>
+              <textarea onChange={this.handleTextAreaOnChange} className={cx('form-control col-11 border-top-0 border-left-0 h-75 overflow fs2')} rows={20} id='code-editor-input'/>
+              <div className={cx('col-1 divider')}/>
+            </div>
+          </div>
+          <div className='col-5 divider shadow'>
+            <div className={cx(this.state.errorOccured ? 'text-danger' : 'text-success')}>{ this.state.shouldOutputShow ? (this.state.textAreaOutput) : '' }</div>
+            { (!this.state.shouldOutputShow && this.state.loading) && <div className='spinner-border text-success' />}
+          </div>
+        </div>
+        <div className='row ml-2 mt-2'>
+          <div className='col-1'>
+            <button className='btn btn-primary' onClick={this.handleSubmitClick}>SUBMIT</button>  
           </div>
           <div className='col-11'/>
         </div>
