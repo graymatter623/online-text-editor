@@ -1,17 +1,103 @@
+
+// 12px - 0.75rem fs-9
+// 14px - 0.875rem fs-8
+// 16px - 1.0rem fs-7
+// 20px - 1.25rem fs-6
+// 22px - 1.375rem fs-5
+// 24px - 1.5rem fs-4
+// 28px - 1.75rem fs-3
+// 30px - 1.875rem fs-2
+// 32px - 2.0rem fs-1
+
+.fs-1 {
+  font-size: 32px;
+}
 .fs-2 {
+  font-size: 30px;
+}
+.fs-3 {
+  font-size: 28px;
+}
+.fs-4 {
+  font-size: 24px;
+}
+.fs-5 {
+  font-size: 22px;
+}
+.fs-6 {
   font-size: 20px;
 }
-.overflow {
-  overflow: auto;
+.fs-7 {
+  font-size: 16px;
 }
+.fs-8 {
+  font-size: 14px;
+}
+.fs-9 {
+  font-size: 12px;
+}
+
+.line-numbers-container{
+  overflow-y: scroll;
+  overflow-x: hidden;
+  max-height: 606px;
+}
+
+.line-numbers-container::-webkit-scrollbar {
+  display: none;
+}
+
 .divider {
   border-left: 2px solid green;
   height: 613px;
   width: 2px;
 }
+
 .no-resize {
   resize: none !important;
 }
 .bg-whitesmoke {
   background-color: whitesmoke;
 }
+
+// .input-container, .backdrop, textarea{
+//   height: 600px;
+// }
+
+// .highlights, textarea {
+//   padding: 10px;
+//   font-size: 20px;
+//   letter-spacing: 1px;
+// }
+
+// .backdrop {
+//   overflow: auto;
+// }
+
+// .input-container {
+//   display: block;
+//   margin: 0 auto;
+// }
+
+// .backdrop {
+//   position: absolute;
+//   z-index: 1;
+//   overflow: auto;
+//   background-color: #fff;
+// }
+
+// .highlights {
+//   white-space: pre-wrap;
+//   word-wrap: break-word;
+//   color: transparent;
+// }
+
+// textarea {
+//   display: block;
+//   position: absolute;
+//   z-index: 2;
+//   margin: 0;
+//   overflow: auto;
+//   color: #d1d1d1;
+//   background-color: transparent;
+// }

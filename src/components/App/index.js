@@ -10,18 +10,32 @@ export default class App extends React.PureComponent {
   constructor () {
     super();
     this.state = {
+      currentLineNumber: 0,
       textAreaInput: '',
       textAreaOutput: '',
       shouldOutputShow: false,
       errorOccured: false,
-      loading: false
+      loading: false,
     };
-  }
+    this.lineNumbersRef = React.createRef();
+  };
   
   handleTextAreaOnChange = (event) => {
+    const textArea = event.currentTarget;
+    const lineNumber = textArea.value.substr(0, textArea.selectionStart).split('\n').length;
+    const scrollTop = textArea.scrollTop;
     this.setState({
-      textAreaInput: event.currentTarget.value,
+      textAreaInput: textArea.value,
       shouldOutputShow: false,
+      currentLineNumber: lineNumber
+    }, () => {
+      if (this.state.currentLineNumber > 20) {
+        this.lineNumbersRef.current.scrollTo({
+          top: scrollTop,
+          left: 0,
+          behaviour: 'smooth'
+        });
+      }
     });
   };
 
@@ -60,23 +74,24 @@ export default class App extends React.PureComponent {
           });
         }
       }).catch(err => console.log(err));
-  }
+  };
   
   handleSubmitClick = () => {
     
-  }
+  };
   render () {
     return (
       <div className='bg-whitesmoke'>
-        <div className='d-flex ml-3 mt-1'>
+        <div className='d-flex justify-content-around mt-1'>
           <Button id='run-button-id-0' classes='shadow rounded-0 btn btn-outline-success' onClick={this.handleRunClick} label='RUN' />
           <Button classes='shadow rounded-0 btn btn-outline-primary' onClick={this.handleSubmitClick} label='SUBMIT'/>  
         </div>
         <div className='row'>
           <div className='ml-2 col-6'>
-            <div className='row ml-2 shadow'>
-              <LineNumbers totalLines={20} />
-              <textarea onChange={this.handleTextAreaOnChange} className={cx('col border-0 form-control h-75 overflow fs-2 no-resize')} rows={20} id='code-editor-input'/>
+            <div className='row ml-2'>
+              <LineNumbers lineNumbersRef={this.lineNumbersRef} totalLines={this.state.currentLineNumber} classes='col-1 fs-6 mt-2 text-muted mr-5 line-numbers-container'/>
+              <textarea onChange={this.handleTextAreaOnChange} className={cx('col-10 border-top-0 border-right-0 border-bottom-0 rounded-0 form-control h-75 fs-6 no-resize')} rows={20} id='code-editor-input'/>
+              <div className='col-1' />
             </div>
           </div>
           <div className='col-5 shadow ml-5 bg-white'>
