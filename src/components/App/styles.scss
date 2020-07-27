@@ -60,44 +60,6 @@
   background-color: whitesmoke;
 }
 
-// .input-container, .backdrop, textarea{
-//   height: 600px;
-// }
-
-// .highlights, textarea {
-//   padding: 10px;
-//   font-size: 20px;
-//   letter-spacing: 1px;
-// }
-
-// .backdrop {
-//   overflow: auto;
-// }
-
-// .input-container {
-//   display: block;
-//   margin: 0 auto;
-// }
-
-// .backdrop {
-//   position: absolute;
-//   z-index: 1;
-//   overflow: auto;
-//   background-color: #fff;
-// }
-
-// .highlights {
-//   white-space: pre-wrap;
-//   word-wrap: break-word;
-//   color: transparent;
-// }
-
-// textarea {
-//   display: block;
-//   position: absolute;
-//   z-index: 2;
-//   margin: 0;
-//   overflow: auto;
-//   color: #d1d1d1;
-//   background-color: transparent;
-// }
+textarea:focus {
+  outline: none;
+}
